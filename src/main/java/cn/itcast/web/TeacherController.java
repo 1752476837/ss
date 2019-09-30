@@ -1,16 +1,19 @@
 package cn.itcast.web;
 
 import cn.itcast.domain.teacherInfoDetail;
+import cn.itcast.domain.vo.TeacherPublic;
 import cn.itcast.exception.YfException;
 import cn.itcast.exception.enums.ExceptionEnum;
 import cn.itcast.services.TeacherService;
 import cn.itcast.until.JsonUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +23,26 @@ public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+
+    //讲师发布
+    @PostMapping("public")
+    public ResponseEntity teacherPublic(@RequestParam("uid") String uid,@RequestBody String teacherPublic){
+        TeacherPublic tp = null;
+        try {
+            JsonNode jsonNode = JsonUtils.mapper.readTree(teacherPublic).get("teacherPublic");
+            tp = JsonUtils.parse(jsonNode.asText(), TeacherPublic.class);
+        } catch (IOException e) {
+            new YfException(ExceptionEnum.PUBLIC_FAIL);
+        }
+        tp.setTagStr(Arrays.toString(tp.getTag()));
+        System.out.println(tp);
+
+        teacherService.teacherPublic(uid,tp);
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
     //添加成功案例
     @PutMapping("successfulCase")

@@ -5,6 +5,9 @@ import cn.itcast.domain.teacherInfo;
 import cn.itcast.domain.teacherInfoDetail;
 import cn.itcast.domain.vo.GoldTeacher;
 import cn.itcast.domain.vo.Salary;
+import cn.itcast.domain.vo.TeacherPublic;
+import cn.itcast.exception.YfException;
+import cn.itcast.exception.enums.ExceptionEnum;
 import cn.itcast.until.JsonUtils;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.CollectionUtils;
@@ -206,5 +209,13 @@ public class TeacherService {
     //获取个人描述
     public String getDescription(String uid){
         return TeacherDao.getDescription(uid);
+    }
+
+    public void teacherPublic(String uid, TeacherPublic teacherPublic) {
+
+        int i = TeacherDao.teacherPublic(uid, teacherPublic);
+        if(i != 1){
+            throw new YfException(ExceptionEnum.PUBLIC_FAIL);
+        }
     }
 }

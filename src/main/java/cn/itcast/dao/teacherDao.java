@@ -3,6 +3,7 @@ package cn.itcast.dao;
 import cn.itcast.common.BaseMapper;
 import cn.itcast.domain.teacherInfo;
 import cn.itcast.domain.teacherInfoDetail;
+import cn.itcast.domain.vo.TeacherPublic;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -80,4 +81,7 @@ public interface teacherDao extends BaseMapper<teacherInfoDetail,String> {
 
     @Select("select description from teacherInfoDetail where teacherId=#{uid}")
     String getDescription(@Param("uid") String uid);
+
+    @Update("update teacherInfoDetail set name=#{public.title},PrimaryGrade=#{public.grade},tag=#{public.tagStr} where teacherId=#{uid}")
+    int teacherPublic(String uid,@Param("public") TeacherPublic teacherPublic);
 }

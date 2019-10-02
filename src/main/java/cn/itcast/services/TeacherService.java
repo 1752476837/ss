@@ -9,12 +9,14 @@ import cn.itcast.domain.vo.TeacherPublic;
 import cn.itcast.exception.YfException;
 import cn.itcast.exception.enums.ExceptionEnum;
 import cn.itcast.until.JsonUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,21 +54,23 @@ public class TeacherService {
         List<teacherInfoDetail> list=TeacherDao.getGoldTeachers();
         List<GoldTeacher> goldList=new ArrayList<>();
         int i=0;
-
         for(teacherInfoDetail t :list){
             GoldTeacher goldTeacher = new GoldTeacher();
             goldTeacher.setTid(t.getTeacherId());
             goldTeacher.setTitle(t.getName());
             goldTeacher.setImage(t.getMe_photo());
             goldTeacher.setDescription(t.getDescription());
-            goldTeacher.setPrice(t.getBasicCourseMoney());
-            if(StringUtils.isBlank(t.getShouke())){
-                //如果老师授课内容为空，则不加入goldList中
+            List<String> tag=null;
+            try {
+                tag = JsonUtils.parseList(t.getTag(), String.class);
+            }catch (Exception e){
                 continue;
             }
-            List<String> skList = this.parseGoldTag(t.getShouke());
-
-            goldTeacher.setCourse(skList);
+            goldTeacher.setTag(tag); //技能标签
+            goldTeacher.setScore(t.getRank()); //评分
+            //查询根据主授年级，查询显示金额
+            String price = this.getPrimaryPrice(t.getCourse_money(), t.getPrimarygrade());
+            goldTeacher.setPrice(Integer.valueOf(price));
             goldList.add(goldTeacher);
         }
         System.out.println("gold教师"+goldList);
@@ -75,6 +79,42 @@ public class TeacherService {
 
 
         return goldList;
+    }
+    //根据主授课年级，查询金额
+    public String getPrimaryPrice(String courseMoney,String grade){
+        String price = null;
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = JsonUtils.mapper.readTree(courseMoney);
+        } catch (IOException e) {
+            throw new YfException(ExceptionEnum.PRICE_ERROR);
+        }
+        //查询根据主授年级，查询显示金额
+        switch (grade){
+            case "0":
+                price = jsonNode.get("primary").toString();
+                break;
+            case "1":
+                price = jsonNode.get("middle1").toString();
+                break;
+            case "2":
+                price = jsonNode.get("middle2").toString();
+                break;
+            case "3":
+                price = jsonNode.get("middle3").toString();
+                break;
+            case "4":
+                price = jsonNode.get("high1").toString();
+                break;
+            case "5":
+                price = jsonNode.get("high2").toString();
+                break;
+            case "6":
+                price = jsonNode.get("high3").toString();
+                break;
+        }
+
+        return price;
     }
 
     public List<String> parseGoldTag(String shouke){

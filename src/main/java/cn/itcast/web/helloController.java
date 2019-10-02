@@ -174,18 +174,14 @@ public class helloController {
             DetailTeacher dt=new DetailTeacher();
             dt.setTid(d.getTeacherId());
             dt.setDescription(d.getDescription());
-            dt.setPhotograph(JsonUtils.parseList(d.getP_photos(),String.class));
+            if (StringUtils.isNotBlank(d.getP_photos())){
+                dt.setPhotograph(JsonUtils.parseList(d.getP_photos(),String.class));
+            }
             dt.setSuccessfulCase(d.getAnli());
-
             dt.setTitle(d.getName());
             dt.setImage(d.getMe_photo());
             dt.setDescription(d.getDescription());
-            dt.setPrice(d.getBasicCourseMoney());
-            List<String> strings = JsonUtils.parseList(d.getShouke(), String.class);
-            dt.setCourse(strings);
-
-
-
+            dt.setCourse(d.getShouke());
 
         return new ResponseEntity<DetailTeacher>(dt,HttpStatus.OK);
     }

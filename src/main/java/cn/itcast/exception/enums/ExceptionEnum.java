@@ -15,7 +15,8 @@ public enum ExceptionEnum {
     NEIBU_INFO_FAILE(500,"更新失败"),
     SET_CASE_FAIL(500,"保存成功案例失败"),
     SET_DESCRIPTION_FAIL(500,"个人描述保存失败"),
-    PUBLIC_FAIL(500,"教师信息，发布失败")
+    PUBLIC_FAIL(500,"教师信息，发布失败"),
+    PRICE_ERROR(500,"数据库薪资标准错误")
 
     ;
     private Integer code;

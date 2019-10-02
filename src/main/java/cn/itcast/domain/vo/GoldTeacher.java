@@ -11,8 +11,8 @@ public class GoldTeacher {
     private String title;
     private String image;
     private String description;
-    private String price;
-    private List<String> course;
-    private Double score;
+    private Integer price;
+    private List<String> tag;  //技能标签  的内容
+    private int score;
 
 }

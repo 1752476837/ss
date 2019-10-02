@@ -9,6 +9,7 @@ public class DetailTeacher extends GoldTeacher {
     private List<String> photograph;
     private String description;
     private String successfulCase;
+    private String course;
 
 
 }

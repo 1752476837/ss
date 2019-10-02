@@ -21,9 +21,10 @@ public class teacherInfoDetail {
     private String p_photos;
     private int rank;
     private String course_money;
-    @Column(name = "basicCourseMoney")
-    private String basicCourseMoney;
-    private float p_money;
+    private String primarygrade;
+    private short status; //发布状态  0 未发布   1已发布
+    private String tag; //技能标签
+
 
 
 }

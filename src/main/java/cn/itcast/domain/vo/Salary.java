@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class Salary {
     private Boolean flag;
-    private String high1;
-    private String high2;
-    private String high3;
-    private String middle1;
-    private String middle2;
-    private String middle3;
-    private String primary;
+    private Integer high1;
+    private Integer high2;
+    private Integer high3;
+    private Integer middle1;
+    private Integer middle2;
+    private Integer middle3;
+    private Integer primary;
 }

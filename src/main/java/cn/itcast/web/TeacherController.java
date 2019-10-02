@@ -7,6 +7,7 @@ import cn.itcast.exception.enums.ExceptionEnum;
 import cn.itcast.services.TeacherService;
 import cn.itcast.until.JsonUtils;
 import com.fasterxml.jackson.databind.JsonNode;
+import net.sf.json.util.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class TeacherController {
         } catch (IOException e) {
             new YfException(ExceptionEnum.PUBLIC_FAIL);
         }
-        tp.setTagStr(Arrays.toString(tp.getTag()));
+        tp.setTagStr(JsonUtils.serialize(tp.getTag()));
         System.out.println(tp);
 
         teacherService.teacherPublic(uid,tp);

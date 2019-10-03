@@ -10,6 +10,7 @@ public class DetailTeacher extends GoldTeacher {
     private String description;
     private String successfulCase;
     private String course;
+    private String coursePrice;
 
 
 }

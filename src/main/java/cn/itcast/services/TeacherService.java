@@ -58,7 +58,13 @@ public class TeacherService {
             GoldTeacher goldTeacher = new GoldTeacher();
             goldTeacher.setTid(t.getTeacherId());
             goldTeacher.setTitle(t.getName());
-            goldTeacher.setImage(t.getMe_photo());
+            String image=null;
+            try {
+                image = JsonUtils.mapper.readTree(t.getMe_photo()).get(0).asText();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            goldTeacher.setImage(image);
             goldTeacher.setDescription(t.getDescription());
             List<String> tag=null;
             try {

@@ -169,8 +169,6 @@ public class helloController {
     @GetMapping("item/detail/{tid}")
     public ResponseEntity<DetailTeacher> getTeacherDetail(@PathVariable("tid") String teacherId){
         teacherInfoDetail d = teacherService.getDetailById(teacherId);
-
-
             DetailTeacher dt=new DetailTeacher();
             dt.setTid(d.getTeacherId());
             dt.setDescription(d.getDescription());
@@ -182,6 +180,8 @@ public class helloController {
             dt.setImage(d.getMe_photo());
             dt.setDescription(d.getDescription());
             dt.setCourse(d.getShouke());
+            dt.setCoursePrice(d.getCourse_money());
+
 
         return new ResponseEntity<DetailTeacher>(dt,HttpStatus.OK);
     }

@@ -27,12 +27,17 @@ public class userService {
     }
     @Transactional
     public int upType(String type,String id){
-             uDao.upType(type,id);
-            int ret=0;
-            if(tDao.addId(id)>0){
-                ret= tDao.addDetailId(id);
+            uDao.upType(type,id);
+            if("teacher".equals(type)){
+                tDao.addId(id);
+                tDao.addDetailId(id);
+                return 1;
+            }else if("parent".equals(type)){
+                //在家长信息表中新增记录，暂时没写
+
+                return 1;
             }
-            return ret;
+            return 0;
     }
     public int test(List<String> wx_openid){
        return uDao.test(wx_openid);

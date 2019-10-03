@@ -21,12 +21,7 @@ public interface teacherDao extends BaseMapper<teacherInfoDetail,String> {
     @Update("update teacherInfo set name=#{name},university=#{university},major=#{major},nianji=#{nianji},flag=1 where teacherId=#{teacherId} and flag=0")
     public int updateTeacher(teacherInfo teacher);
 
-    @Update("update teacherInfoDetail set name=#{name}")
-    public int updateTeacherDetailName(String name);
 
-    //更新老师详细信息
-    @Update("update teacherInfoDetail set me_photo=#{me_photo},shouke=#{shouke},description=#{description},anli=#{anli},p_photos=#{p_photos},rank=#{rank},course_money=#{course_money},p_money=#{p_money}")
-    public int updateTeacherDetail(teacherInfoDetail teacher);
 
     //获取老师基本信息
     @Select("select * from teacherInfo where teacherId=#{id}")
@@ -82,6 +77,6 @@ public interface teacherDao extends BaseMapper<teacherInfoDetail,String> {
     @Select("select description from teacherInfoDetail where teacherId=#{uid}")
     String getDescription(@Param("uid") String uid);
 
-    @Update("update teacherInfoDetail set name=#{public.title},PrimaryGrade=#{public.grade},tag=#{public.tagStr} where teacherId=#{uid}")
+    @Update("update teacherInfoDetail set name=#{public.title},PrimaryGrade=#{public.grade},tag=#{public.tagStr},status = 1 where teacherId=#{uid}")
     int teacherPublic(String uid,@Param("public") TeacherPublic teacherPublic);
 }

@@ -47,25 +47,15 @@ public class TeacherController {
 
     //添加成功案例
     @PutMapping("successfulCase")
-    public ResponseEntity setSuccessfulCase(@RequestParam("uid") String uid,@RequestBody String successfulCase){
-        try {
-            //根据名称，读取JSon中的，指定属性的内容。
-            successfulCase = JsonUtils.mapper.readTree(successfulCase).get("successfulCase").asText();
-        } catch (IOException e) {
-            new YfException(ExceptionEnum.SET_CASE_FAIL);
-        }
+    public ResponseEntity setSuccessfulCase(@RequestParam("uid") String uid,String successfulCase){
+
         teacherService.setSuccessfulCase(uid,successfulCase);
         return ResponseEntity.ok().build();
     }
     //添加个人描述
     @PutMapping("description")
-    public ResponseEntity setDescription(@RequestParam("uid") String uid,@RequestBody String description){
-        try {
-            //根据名称，读取JSon中的，指定属性的内容。
-            description = JsonUtils.mapper.readTree(description).get("description").asText();
-        } catch (IOException e) {
-            new YfException(ExceptionEnum.SET_DESCRIPTION_FAIL);
-        }
+    public ResponseEntity setDescription(@RequestParam("uid") String uid,String description){
+
         teacherService.setDescription(uid,description);
         System.out.println("个人描述:"+description);
         return ResponseEntity.ok().build();
@@ -86,12 +76,12 @@ public class TeacherController {
 
     //提交老师授课信息
     @PutMapping("course")
-    public ResponseEntity<Void> setTeacherCourseInfo(@RequestParam String uid,String checkArray){
+    public ResponseEntity<Void> setTeacherCourseInfo(@RequestParam String uid, String checkArray){
         teacherInfoDetail teacherInfoDetail = new teacherInfoDetail();
         teacherInfoDetail.setTeacherId(uid);
         teacherInfoDetail.setShouke(checkArray);
         teacherService.setTeacherCourseInfo(teacherInfoDetail);
-
+        System.out.println("put课程数据："+teacherInfoDetail);
         return ResponseEntity.ok().build();
     }
 

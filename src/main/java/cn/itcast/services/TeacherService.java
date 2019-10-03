@@ -33,15 +33,8 @@ public class TeacherService {
     //增加老师基本信息
     public int updateTeacher(teacherInfo teacher){
         System.out.println("updateTeacher services........."+teacher);
-        if(TeacherDao.updateTeacher(teacher)>0){
-            return TeacherDao.updateTeacherDetailName(teacher.getName());
-        }
-        return 0;
-    }
-
-    //增加老师详细信息
-    public int updateTeacherDetail(teacherInfoDetail teacherDetail){
-        return TeacherDao.updateTeacherDetail(teacherDetail);
+        TeacherDao.updateTeacher(teacher);
+        return 1;
     }
 
     //根据课程查询老师可以授课科目的老师
@@ -58,6 +51,9 @@ public class TeacherService {
             GoldTeacher goldTeacher = new GoldTeacher();
             goldTeacher.setTid(t.getTeacherId());
             goldTeacher.setTitle(t.getName());
+            if (StringUtils.isBlank(t.getMe_photo())){
+                continue; //头像为空，则进行下一次循环
+            }
             String image=null;
             try {
                 image = JsonUtils.mapper.readTree(t.getMe_photo()).get(0).asText();
@@ -224,6 +220,9 @@ public class TeacherService {
     //查询老师薪资
     public Salary getPxinziById(String id){
         String salaryJson = TeacherDao.getPxinziById(id);
+        if (StringUtils.isBlank(salaryJson)){
+            throw new YfException(ExceptionEnum.CONTENT_IS_NULL);
+        }
         Salary salary = JsonUtils.parse(salaryJson, Salary.class);
         return salary;
     }

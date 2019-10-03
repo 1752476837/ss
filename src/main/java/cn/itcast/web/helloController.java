@@ -107,12 +107,7 @@ public class helloController {
         throw new YfException(ExceptionEnum.NEIBU_INFO_FAILE);
     }
 
-    //更新老师详细信息（用户个人中心编辑）
-    @RequestMapping("addTeacherDetail")
-    public ResponseEntity<Integer> addTeacherDetail(teacherInfoDetail teacherDetail){
-        int ret=teacherService.updateTeacherDetail(teacherDetail);
-        return new ResponseEntity<>(ret,HttpStatus.OK);
-    }
+
 
     //获取轮播图信息url
     @GetMapping("swiper")
@@ -143,13 +138,7 @@ public class helloController {
         //更新老师基本信息失败
        throw new YfException(ExceptionEnum.NEIBU_INFO_FAILE);
     }
-    //更新老师详细信息
-    @RequestMapping("updateTeacherDetail")
-    public ResponseEntity<Integer> updateTeacherDetail(teacherInfoDetail teacherDetail){
-        int ret=teacherService.updateTeacherDetail(teacherDetail);
-        return new ResponseEntity(ret, HttpStatus.OK);
 
-    }
 
     @GetMapping("item/list/{course}")
     public ResponseEntity<List<teacherInfoDetail>> getTeacherByCourse(@PathVariable("course") String course){
@@ -311,7 +300,7 @@ public class helloController {
 
 
     //更改老师薪资
-    @PutMapping("teacher/salary")
+    @PostMapping("teacher/salary")
     public ResponseEntity addPxinzi(@RequestBody Salary salary, @RequestParam("uid")String id){
         System.out.println("修改薪资："+salary);
         String salaryStr = JsonUtils.serialize(salary);
